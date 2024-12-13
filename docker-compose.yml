@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  myapp:
+    image: myapi:latest #如果用我提供的镜像，导入后名字就是这个，自己构建替换成自己名字
+    ports:
+      - "5000:5000" # 该端口用于接受stun穿透后的端口
+      - "33331:33331" # 将内部端口映射到本机端口，接收外部请求并重定向至本地 STUN 穿透后的地址，按需配置多个端口映射。
+      - "33332:33332" # 同上
+      - "33333:33333" # 同上
+      - "33334:33334" # 同上
+    volumes:
+      - ./config/redirect_mapping.json:/app/redirect_mapping.json #记得创建重定向配置文件redirect_mapping.json
+    environment:
+      - BEARER_TOKEN=your_token
+    restart: always
